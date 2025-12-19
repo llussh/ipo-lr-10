@@ -35,4 +35,21 @@ def intersectionAreaRect(rect1, rect2):
 
     return (x_right - x_left) * (y_top - y_bottom)
 
+def intersectionAreaMultiRect(rectangles):
+    if not rectangles:
+        return 0.0
 
+    for rect in rectangles:
+        if not isCorrectRect(rect):
+            raise RectCorrectError(f"Прямоугольник {rect} некорректный")
+
+    common_x_left = max(rect[0][0] for rect in rectangles)
+    common_x_right = min(rect[1][0] for rect in rectangles)
+    common_y_bottom = max(rect[0][1] for rect in rectangles)
+    common_y_top = min(rect[1][1] for rect in rectangles)
+
+    if common_x_right <= common_x_left or common_y_top <= common_y_bottom:
+        return 0.0
+
+    return (common_x_right - common_x_left) * (common_y_top - common_y_bottom)
+ 
